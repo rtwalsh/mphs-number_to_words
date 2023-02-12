@@ -81,19 +81,36 @@ public class NumberToWords {
 	public String toString() {
 		String output = "";
 		
+		output += formatThousands();
+		output += formatHundreds(output);
+		output += formatTens(output);
+		output += formatOnes(output);
+		return output;
+	}
+	
+	private String formatThousands() {
+		String output = "";
 		if (thousandsDigit > 0) {
 			output += DIGIT_WORDS[thousandsDigit - 1] + " thousand";
 		}
-		
+		return output;
+	}
+	
+	private String formatHundreds(String soFar) {
+		String output = "";
 		if (hundredsDigit > 0) {
-			if (!output.isEmpty()) {
+			if (!soFar.isEmpty()) {
 				output += " ";
 			}
 			output += DIGIT_WORDS[hundredsDigit - 1] + " hundred";
 		}
-		
+		return output;
+	}
+	
+	private String formatTens(String soFar) {
+		String output = "";
 		if (tensDigit > 0) {
-			if (!output.isEmpty()) {
+			if (!soFar.isEmpty()) {
 				output += " ";
 			}
 			
@@ -107,16 +124,19 @@ public class NumberToWords {
 				output += TENS_DIGIT_WORDS[tensDigit - 2];
 			}
 		}
-		
+		return output;
+	}		
+	
+	private String formatOnes(String soFar) {
+		String output = "";
 		if ((onesDigit > 0) && (tensDigit != 1)) {
 			if (tensDigit > 1) {
 				output += "-";
-			} else if (!output.isEmpty()) {
+			} else if (!soFar.isEmpty()) {
 				output += " ";
 			}
 			output += DIGIT_WORDS[onesDigit - 1];
 		}
-
 		return output;
 	}
 }
