@@ -22,6 +22,8 @@ public class NumberToWords {
 	public static int MAX_NUMBER = 10000;
 	
 	public static String[] DIGIT_WORDS =  { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+	public static String[] TENS_DIGIT_WORDS = { "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" };
+	public static String[] TEENS_DIGIT_WORDS = { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen" };
 	
 	public static void main(String[] args) {
 		String input;
@@ -83,6 +85,38 @@ public class NumberToWords {
 			output += DIGIT_WORDS[thousandsDigit - 1] + " thousand";
 		}
 		
+		if (hundredsDigit > 0) {
+			if (!output.isEmpty()) {
+				output += " ";
+			}
+			output += DIGIT_WORDS[hundredsDigit - 1] + " hundred";
+		}
+		
+		if (tensDigit > 0) {
+			if (!output.isEmpty()) {
+				output += " ";
+			}
+			
+			if (tensDigit == 1) {
+				if (onesDigit < 6) {
+					output += TEENS_DIGIT_WORDS[onesDigit];
+				} else {
+					output += DIGIT_WORDS[onesDigit - 1] + "teen";
+				}
+			} else {
+				output += TENS_DIGIT_WORDS[tensDigit - 2];
+			}
+		}
+		
+		if ((onesDigit > 0) && (tensDigit != 1)) {
+			if (tensDigit > 1) {
+				output += "-";
+			} else if (!output.isEmpty()) {
+				output += " ";
+			}
+			output += DIGIT_WORDS[onesDigit - 1];
+		}
+
 		return output;
 	}
 }
