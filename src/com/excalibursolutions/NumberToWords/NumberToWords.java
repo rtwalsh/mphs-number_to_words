@@ -21,6 +21,8 @@ public class NumberToWords {
 
 	public static int MAX_NUMBER = 10000;
 	
+	public static String[] DIGIT_WORDS =  { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+	
 	public static void main(String[] args) {
 		String input;
 		if (args.length > 0) {
@@ -72,5 +74,15 @@ public class NumberToWords {
 		} else {
 			throw new Exception("Number to convert must be less than " + MAX_NUMBER);
 		}
+	}
+	
+	public String toString() {
+		String output = "";
+		
+		if (thousandsDigit > 0) {
+			output += DIGIT_WORDS[thousandsDigit - 1] + " thousand";
+		}
+		
+		return output;
 	}
 }
