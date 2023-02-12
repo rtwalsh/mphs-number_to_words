@@ -23,7 +23,7 @@ public class NumberToWords {
 	
 	public static String[] DIGIT_WORDS =  { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 	public static String[] TENS_DIGIT_WORDS = { "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" };
-	public static String[] TEENS_DIGIT_WORDS = { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen" };
+	public static String[] TEENS_DIGIT_WORDS = { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
 	
 	public static void main(String[] args) {
 		String input;
@@ -79,34 +79,32 @@ public class NumberToWords {
 	}
 	
 	public String toString() {
-		String output = "";
-		
-		output += formatThousands();
+		String output = formatThousands();
 		output += formatHundreds(output);
 		output += formatTens(output);
 		output += formatOnes(output);
 		return output;
 	}
 	
-	private String formatThousands() {
+	private String simpleFormat(String soFar, String placeValue, int digit) {
 		String output = "";
-		if (thousandsDigit > 0) {
-			output += DIGIT_WORDS[thousandsDigit - 1] + " thousand";
+		if (digit > 0) {
+			if ((soFar != null) && !soFar.isEmpty()) {
+				output += " ";
+			}
+			output += DIGIT_WORDS[digit - 1] + " " + placeValue;
 		}
 		return output;
+	}
+
+	private String formatThousands() {
+		return simpleFormat(null, "thousand", thousandsDigit);
 	}
 	
 	private String formatHundreds(String soFar) {
-		String output = "";
-		if (hundredsDigit > 0) {
-			if (!soFar.isEmpty()) {
-				output += " ";
-			}
-			output += DIGIT_WORDS[hundredsDigit - 1] + " hundred";
-		}
-		return output;
+		return simpleFormat(soFar, "hundred", hundredsDigit);
 	}
-	
+
 	private String formatTens(String soFar) {
 		String output = "";
 		if (tensDigit > 0) {
@@ -115,11 +113,7 @@ public class NumberToWords {
 			}
 			
 			if (tensDigit == 1) {
-				if (onesDigit < 6) {
-					output += TEENS_DIGIT_WORDS[onesDigit];
-				} else {
-					output += DIGIT_WORDS[onesDigit - 1] + "teen";
-				}
+				output += TEENS_DIGIT_WORDS[onesDigit];
 			} else {
 				output += TENS_DIGIT_WORDS[tensDigit - 2];
 			}
